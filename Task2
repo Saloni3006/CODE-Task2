@@ -1,0 +1,76 @@
+/* To calculate students average grades */
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentGradeManager {
+    private ArrayList<Double> grades;
+    
+    public StudentGradeManager() {
+        grades = new ArrayList<>();
+    }
+
+    public void addGrade(double grade) {
+        grades.add(grade);
+    }
+
+    public double calculateAverage() {
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        return grades.size() > 0 ? sum / grades.size() : 0;
+    }
+
+    public String getLetterGrade(double average) {
+        if (average >= 90) return "A";
+        else if (average >= 80) return "B";
+        else if (average >= 60) return "C";
+        else if (average >= 45) return "D";
+        else return "F";
+    }
+
+    public double getGPA(double average) {
+        if (average >= 90) return 4.0;
+        else if (average >= 80) return 3.0;
+        else if (average >= 60) return 2.0;
+        else if (average >= 45) return 1.0;
+        else return 0.0;
+    }
+
+    public void displayGrades() {
+        System.out.println("Grades: " + grades);
+        double average = calculateAverage();
+        System.out.println("Average Grade: " + average);
+        System.out.println("Letter Grade: " + getLetterGrade(average));
+        System.out.println("GPA: " + getGPA(average));
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StudentGradeManager gradeManager = new StudentGradeManager();
+
+        while (true) {
+            System.out.print("Enter a grade (or type 'done' to finish): ");
+            String input = scanner.next();
+
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            } else {
+                try {
+                    double grade = Double.parseDouble(input);
+                    if (grade >= 0 && grade <= 100) {
+                        gradeManager.addGrade(grade);
+                    } else {
+                        System.out.println("Please enter a grade between 0 and 100.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a numeric grade.");
+                }
+            }
+        }
+
+        gradeManager.displayGrades();
+        scanner.close();
+    }
+}
